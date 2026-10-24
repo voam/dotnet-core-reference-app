@@ -8,7 +8,7 @@
             "name": "Debug first-app",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/src/bin/Debug/net10.0/first-app.dll",
+            "program": "${workspaceFolder}/src/FirstApp.Console/bin/Debug/net10.0/FirstApp.Console.dll",
             "args": ["hello", "123", "--flag"],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build"
