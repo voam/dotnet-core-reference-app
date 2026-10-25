@@ -5,13 +5,16 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ..:/workspaces/first-app:cached
+      - sqlite-data:/data
     # Keep the container running so VS Code can attach to it.
     command: sleep infinity
     environment:
       SMTP_HOST: mail
       SMTP_PORT: "1025"
+      SQLITE_PATH: /data/app.db
     depends_on:
       - mail
+      - db
 
   mail:
     image: mailhog/mailhog:latest
@@ -20,3 +23,16 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # SQLite is file-based: this container creates and seeds /data/app.db,
+    # and the app container reads it through the shared volume.
+    volumes:
+      - sqlite-data:/data
+
+volumes:
+  sqlite-data:
