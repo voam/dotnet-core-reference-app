@@ -5,7 +5,7 @@
             "label": "build",
             "command": "dotnet",
             "type": "process",
-            "args": ["build", "${workspaceFolder}/FirstApp.slnx"],
+            "args": ["build", "${workspaceFolder}/src/FirstApp.slnx"],
             "problemMatcher": "$msCompile",
             "group": {
                 "kind": "build",

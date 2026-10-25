@@ -1,6 +1,4 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/FirstApp.Console/FirstApp.Console.csproj" />
-    <Project Path="src/FirstApp.Lib/FirstApp.Lib.csproj" />
-  </Folder>
+  <Project Path="FirstApp.Console/FirstApp.Console.csproj" />
+  <Project Path="FirstApp.Lib/FirstApp.Lib.csproj" />
 </Solution>
