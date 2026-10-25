@@ -2,7 +2,7 @@ using Microsoft.Data.Sqlite;
 
 namespace FirstApp.Lib;
 
-public class ProductRepository(string databasePath)
+public class ProductRepository(string databasePath) : IProductDB
 {
     private readonly string _connectionString = new SqliteConnectionStringBuilder
     {

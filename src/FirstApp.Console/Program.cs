@@ -1,5 +1,30 @@
 using System.Net.Mail;
 using FirstApp.Lib;
+using FirstApp.ProductDBMock;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+// appsettings.json, overridable by environment variable (e.g. ProductDb__Provider=Mock).
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(AppContext.BaseDirectory)
+    .AddJsonFile("appsettings.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
+
+var services = new ServiceCollection();
+var productDbProvider = configuration["ProductDb:Provider"] ?? "Sqlite";
+switch (productDbProvider.ToLowerInvariant())
+{
+    case "sqlite":
+        services.AddSingleton<IProductDB>(_ => ProductRepository.FromEnvironment());
+        break;
+    case "mock":
+        services.AddSingleton<IProductDB>(_ => new MockProductDB());
+        break;
+    default:
+        throw new InvalidOperationException($"Unknown ProductDb:Provider '{productDbProvider}'. Use 'Sqlite' or 'Mock'.");
+}
+using var serviceProvider = services.BuildServiceProvider();
 
 if (args.Length > 0)
 {
@@ -12,11 +37,10 @@ i++;
 var greeting = Greeter.Greet(i);
 Console.WriteLine(greeting);
 
-// Product list from the SQLite database (the "db" service in docker-compose).
 string productList;
 try
 {
-    var products = ProductRepository.FromEnvironment().GetProducts();
+    var products = serviceProvider.GetRequiredService<IProductDB>().GetProducts();
     productList = string.Join(Environment.NewLine, products.Select(p => $"- {p.Name}: {p.Price:0.00}"));
 }
 catch (Exception ex)
