@@ -16,7 +16,7 @@ services:
   mail:
     image: mailhog/mailhog:latest
     restart: unless-stopped
-    # SMTP on 1025, web UI on 8025 (forwarded by devcontainer.json).
-    expose:
-      - "1025"
-      - "8025"
+    # SMTP on 1025, web UI on 8025, published to the host.
+    ports:
+      - "1025:1025"
+      - "8025:8025"
