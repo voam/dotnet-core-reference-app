@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/first-app:cached
+    # Keep the container running so VS Code can attach to it.
+    command: sleep infinity
+    environment:
+      SMTP_HOST: mail
+      SMTP_PORT: "1025"
+    depends_on:
+      - mail
+
+  mail:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    # SMTP on 1025, web UI on 8025 (forwarded by devcontainer.json).
+    expose:
+      - "1025"
+      - "8025"

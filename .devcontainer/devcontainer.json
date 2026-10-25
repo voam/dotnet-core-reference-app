@@ -2,16 +2,20 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "C# (.NET)",
-	// Built from the Dockerfile in this folder. More info: https://containers.dev/guide/dockerfile
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+	// Uses docker-compose.yml in this folder: "app" (built from the Dockerfile) and "mail" (MailHog).
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/first-app",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": ["mail:8025"],
 	// "forwardPorts": [5000, 5001],
+	"portsAttributes": {
+		"mail:8025": { "label": "MailHog UI" }
+	},
 	// "portsAttributes": {
 	//		"5001": {
 	//			"protocol": "https"
