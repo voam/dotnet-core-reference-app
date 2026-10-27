@@ -20,6 +20,8 @@ Goal: Have use of Claude Code adhere to data governance and AI Policy Use
 export BUILDX_BAKE_ENTITLEMENTS_FS=0
 ```
 
+See https://github.com/microsoft/vscode-remote-release/issues/11896
+
 ## To run
 
 App source repo should be in linux filesystem portion of wsl2 ( not the /mnt/ portion of Windows)
