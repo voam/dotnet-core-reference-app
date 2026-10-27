@@ -13,12 +13,20 @@ Goal: Have use of Claude Code adhere to data governance and AI Policy Use
   - WSL2
   - Dependency Injection
 
+## Environment Variable
+```
+~/.profile
+
+export BUILDX_BAKE_ENTITLEMENTS_FS=0
+```
+
 ## To run
 
 App source repo should be in linux filesystem portion of wsl2 ( not the /mnt/ portion of Windows)
 
-'''
+```
 code .
+
 ```
 
 When asked click the `Reopen in Container Button`
