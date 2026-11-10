@@ -8,6 +8,11 @@ services:
       - sqlite-data:/data
     # Keep the container running so VS Code can attach to it.
     command: sleep infinity
+    # Needed by init-firewall.sh to manage iptables/ipset.
+    # (devcontainer.json "runArgs" is ignored for Compose-based containers, so caps go here.)
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     environment:
       SMTP_HOST: mail
       SMTP_PORT: "1025"

@@ -8,21 +8,25 @@
 	"workspaceFolder": "/workspaces/first-app",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	 "features": {
-	 	"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
-		},
+	"features": {
+		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": ["mail:8025"],
-	// "forwardPorts": [5000, 5001],
 	"portsAttributes": {
 		"mail:8025": { "label": "MailHog UI" }
 	},
-	// "portsAttributes": {
-	//		"5001": {
-	//			"protocol": "https"
-	//		}
-	// }
+
+	// Runs in WSL before every build: drops Docker's cached copy of the build folder
+	// (only the file-transfer cache, not image layers, so apt stays cached) so the
+	// Dockerfile's COPY of devcontainer-firewall.sh always gets the current file.
+	"initializeCommand": "docker builder prune -f --filter type=source.local",
+
+	// Lock down outbound network on every start (see devcontainer-firewall.sh).
+	// waitFor makes VS Code hold off on extensions/terminals until the firewall is up.
+	"postStartCommand": "sudo /usr/local/bin/devcontainer-firewall.sh",
+	"waitFor": "postStartCommand",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "dotnet restore",
@@ -30,13 +34,13 @@
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
-      "extensions": [
-        "ms-dotnettools.csharp",
-        "ms-dotnettools.csdevkit",
-		"anthropic.claude-code"
-      ]
-	}
-	}
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit",
+				"anthropic.claude-code"
+			]
+		}
+	},
+
+	"remoteUser": "vscode"
 }
